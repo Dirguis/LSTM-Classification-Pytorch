@@ -18,6 +18,7 @@ class Dictionary(object):
     def __len__(self):
         return len(self.idx2word)
 
+
 class Corpus(object):
     def __init__(self, DATA_DIR, filenames):
         self.dictionary = Dictionary()
@@ -46,6 +47,7 @@ class Corpus(object):
 
         return ids
 
+
 class TxtDatasetProcessing(Dataset):
     def __init__(self, data_path, txt_path, txt_filename, label_filename, sen_len, corpus):
         self.txt_path = os.path.join(data_path, txt_path)
@@ -63,7 +65,6 @@ class TxtDatasetProcessing(Dataset):
         self.corpus = corpus
         self.sen_len = sen_len
 
-
     def __getitem__(self, index):
         filename = os.path.join(self.txt_path, self.txt_filename[index])
         fp = open(filename, 'r')
@@ -78,8 +79,10 @@ class TxtDatasetProcessing(Dataset):
                         break
                     txt[count] = self.corpus.dictionary.word2idx[word.strip()]
                     count += 1
-            if clip: break
+            if clip:
+                break
         label = torch.LongTensor([self.label[index]])
         return txt, label
+
     def __len__(self):
         return len(self.txt_filename)

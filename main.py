@@ -22,11 +22,12 @@ TEST_FILE = 'test_txt.txt'
 TRAIN_LABEL = 'train_label.txt'
 TEST_LABEL = 'test_label.txt'
 
-## parameter setting
+# parameter setting
 epochs = 50
 batch_size = 5
 use_gpu = torch.cuda.is_available()
 learning_rate = 0.01
+
 
 def adjust_learning_rate(optimizer, epoch):
     lr = learning_rate * (0.1 ** (epoch // 10))
@@ -34,8 +35,9 @@ def adjust_learning_rate(optimizer, epoch):
         param_group['lr'] = lr
     return optimizer
 
-if __name__=='__main__':
-    ### parameter setting
+
+if __name__ == '__main__':
+    # parameter setting
     embedding_dim = 100
     hidden_dim = 50
     sentence_len = 32
@@ -53,26 +55,18 @@ if __name__=='__main__':
     corpus = DP.Corpus(DATA_DIR, filenames)
     nlabel = 8
 
-    ### create model
-    model = LSTMC.LSTMClassifier(embedding_dim=embedding_dim,hidden_dim=hidden_dim,
-                           vocab_size=len(corpus.dictionary),label_size=nlabel, batch_size=batch_size, use_gpu=use_gpu)
+    # create model
+    model = LSTMC.LSTMClassifier(embedding_dim=embedding_dim, hidden_dim=hidden_dim, vocab_size=len(corpus.dictionary),
+                                 label_size=nlabel, batch_size=batch_size, use_gpu=use_gpu)
     if use_gpu:
         model = model.cuda()
-    ### data processing
+    # data processing
     dtrain_set = DP.TxtDatasetProcessing(DATA_DIR, TRAIN_DIR, TRAIN_FILE, TRAIN_LABEL, sentence_len, corpus)
 
-    train_loader = DataLoader(dtrain_set,
-                          batch_size=batch_size,
-                          shuffle=True,
-                          num_workers=4
-                         )
+    train_loader = DataLoader(dtrain_set, batch_size=batch_size, shuffle=True, num_workers=4)
     dtest_set = DP.TxtDatasetProcessing(DATA_DIR, TEST_DIR, TEST_FILE, TEST_LABEL, sentence_len, corpus)
 
-    test_loader = DataLoader(dtest_set,
-                          batch_size=batch_size,
-                          shuffle=False,
-                          num_workers=4
-                         )
+    test_loader = DataLoader(dtest_set, batch_size=batch_size, shuffle=False, num_workers=4)
 
     optimizer = optim.SGD(model.parameters(), lr=learning_rate)
     loss_function = nn.CrossEntropyLoss()
@@ -80,11 +74,11 @@ if __name__=='__main__':
     test_loss_ = []
     train_acc_ = []
     test_acc_ = []
-    ### training procedure
+    # training procedure
     for epoch in range(epochs):
         optimizer = adjust_learning_rate(optimizer, epoch)
 
-        ## training epoch
+        # training epoch
         total_acc = 0.0
         total_loss = 0.0
         total = 0.0
@@ -94,7 +88,8 @@ if __name__=='__main__':
 
             if use_gpu:
                 train_inputs, train_labels = Variable(train_inputs.cuda()), train_labels.cuda()
-            else: train_inputs = Variable(train_inputs)
+            else:
+                train_inputs = Variable(train_inputs)
 
             model.zero_grad()
             model.batch_size = len(train_labels)
@@ -113,7 +108,7 @@ if __name__=='__main__':
 
         train_loss_.append(total_loss / total)
         train_acc_.append(total_acc / total)
-        ## testing epoch
+        # testing epoch
         total_acc = 0.0
         total_loss = 0.0
         total = 0.0
@@ -123,7 +118,8 @@ if __name__=='__main__':
 
             if use_gpu:
                 test_inputs, test_labels = Variable(test_inputs.cuda()), test_labels.cuda()
-            else: test_inputs = Variable(test_inputs)
+            else:
+                test_inputs = Variable(test_inputs)
 
             model.batch_size = len(test_labels)
             model.hidden = model.init_hidden()

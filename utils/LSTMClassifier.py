@@ -30,5 +30,5 @@ class LSTMClassifier(nn.Module):
         embeds = self.word_embeddings(sentence)
         x = embeds.view(len(sentence), self.batch_size, -1)
         lstm_out, self.hidden = self.lstm(x, self.hidden)
-        y  = self.hidden2label(lstm_out[-1])
+        y = self.hidden2label(lstm_out[-1])
         return y
