@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pickle
 from datetime import datetime
+import os
 
 
 def PlotFigure(result, use_save=False):
@@ -32,6 +33,8 @@ def PlotFigure(result, use_save=False):
 
     plt.show()
     if use_save:
+        if not os.path.exists('figure'):
+            os.mkdir('figure')
         figname = 'figure/LSTM_classifier_' + datetime.now().strftime("%d-%h-%m-%s") + '.png'
         fig.savefig(figname)
         print('Figure %s is saved.' % figname)

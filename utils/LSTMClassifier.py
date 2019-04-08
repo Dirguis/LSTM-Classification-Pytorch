@@ -26,9 +26,30 @@ class LSTMClassifier(nn.Module):
             c0 = Variable(torch.zeros(1, self.batch_size, self.hidden_dim))
         return (h0, c0)
 
-    def forward(self, sentence):
+    # def forward(self, sentence, input_lengths):
+    #     embeds = self.word_embeddings(sentence)
+    #     outp, self.hidden = self.lstm(embeds, self.hidden)
+    #     mask = torch.LongTensor(input_lengths).view(1, -1, 1)
+    #     mask = mask.expand(1, outp.size(1), outp.size(2)) - 1
+    #     x = torch.gather(outp, 0, mask).squeeze(0)
+    #     y = self.hidden2label(x)
+    #     return F.log_softmax(y, dim=-1)
+
+    def forward(self, sentence, input_lengths):
         embeds = self.word_embeddings(sentence)
-        x = embeds.view(len(sentence), self.batch_size, -1)
-        lstm_out, self.hidden = self.lstm(x, self.hidden)
-        y = self.hidden2label(lstm_out[-1])
-        return y
+        packed_input = torch.nn.utils.rnn.pack_padded_sequence(embeds, input_lengths)
+        lstm_out, self.hidden = self.lstm(packed_input, self.hidden)
+        outp, unpacked_len = torch.nn.utils.rnn.pad_packed_sequence(lstm_out)
+        mask = torch.LongTensor(unpacked_len).view(1, -1, 1)
+        mask = mask.expand(1, outp.size(1), outp.size(2)) - 1
+        x = torch.gather(outp, 0, mask).squeeze(0)
+        y = self.hidden2label(x)
+        return F.log_softmax(y, dim=-1)
+
+    # def forward(self, sentence, input_lengths):
+    #     embeds = self.word_embeddings(sentence)
+    #     packed_input = torch.nn.utils.rnn.pack_padded_sequence(embeds, input_lengths)
+    #     lstm_out, self.hidden = self.lstm(packed_input, self.hidden)
+    #     outp, unpacked_len = torch.nn.utils.rnn.pad_packed_sequence(lstm_out)
+    #     y = self.hidden2label(outp[-1])
+    #     return F.log_softmax(y, dim=-1)
