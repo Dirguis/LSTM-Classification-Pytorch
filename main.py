@@ -25,16 +25,17 @@ TEST_LABEL = 'test_label.txt'
 
 # parameter setting
 epochs = 20
-batch_size = 5
+batch_size = 16
 use_gpu = torch.cuda.is_available()
 learning_rate = 0.005
+torch.manual_seed(666)
 
 
 if __name__ == '__main__':
     # parameter setting
-    embedding_dim = 100
-    hidden_dim = 50
-    sentence_len = 32
+    embedding_dim = 150
+    hidden_dim = 200
+    sentence_len = None
     train_file = os.path.join(DATA_DIR, TRAIN_FILE)
     test_file = os.path.join(DATA_DIR, TEST_FILE)
     fp_train = open(train_file, 'r')
@@ -80,7 +81,6 @@ if __name__ == '__main__':
         total = 0.0
         for iter, traindata in enumerate(train_loader):
             train_inputs, train_labels, train_lengths = traindata
-            train_labels = torch.squeeze(train_labels)
 
             if use_gpu:
                 train_inputs, train_labels = Variable(train_inputs.cuda()), train_labels.cuda()
@@ -111,7 +111,6 @@ if __name__ == '__main__':
         model.eval()
         for iter, testdata in enumerate(test_loader):
             test_inputs, test_labels, test_lengths = testdata
-            test_labels = torch.squeeze(test_labels)
 
             if use_gpu:
                 test_inputs, test_labels = Variable(test_inputs.cuda()), test_labels.cuda()

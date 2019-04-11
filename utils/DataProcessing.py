@@ -109,6 +109,7 @@ class DataLoader(object):
         cnt = 0
         batch = []
         if self.shuffle:
+            np.random.seed(666)
             sample_idx = random.sample(range(nb_items), nb_items)
         else:
             sample_idx = range(nb_items)
