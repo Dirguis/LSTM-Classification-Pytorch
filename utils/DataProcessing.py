@@ -8,7 +8,7 @@ import random
 class Dictionary(object):
     def __init__(self):
         self.word2idx = {}
-        self.idx2word = []
+        self.idx2word = [None]
 
     def add_word(self, word):
         if word not in self.word2idx:

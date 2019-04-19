@@ -1,5 +1,5 @@
 ---
-Text Classification baed on LSTM on R8 Dataset-[pytorch implementation]
+Text Classification based on LSTM on R8 Dataset-[pytorch implementation]
 ---
 
 ### 1. Details of file fold:
@@ -35,6 +35,13 @@ python main.py
 ```
 output:
 ![](./img/LSTM_classifier_example.png)
+
 ### 4. Dataset:
 We use the following dataset for our example:
 R8 Dataset.[link](http://www.cs.umb.edu/~smimarog/textmining/datasets/).
+
+### 5. Notes:
+- This code is largely inspired from the original repo: [jiangqy](https://github.com/jiangqy/LSTM-Classification-Pytorch) with a few modifications:
+  - Custom dataloader
+  - Select the right output after the LSTM/GRU (masking)
+  - Attention layer included, from [here](https://github.com/wabyking/TextClassificationBenchmark)

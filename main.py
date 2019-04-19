@@ -26,6 +26,7 @@ TEST_LABEL = 'test_label.txt'
 # parameter setting
 epochs = 20
 batch_size = 16
+attn_flag = True
 use_gpu = torch.cuda.is_available()
 learning_rate = 0.005
 torch.manual_seed(666)
@@ -52,7 +53,7 @@ if __name__ == '__main__':
 
     # create model
     model = LSTMC.LSTMClassifier(embedding_dim=embedding_dim, hidden_dim=hidden_dim, vocab_size=len(corpus.dictionary),
-                                 label_size=nlabel, batch_size=batch_size, use_gpu=use_gpu)
+                                 label_size=nlabel, batch_size=batch_size, use_gpu=use_gpu, attn_flag=attn_flag)
     if use_gpu:
         model = model.cuda()
     # data processing
