@@ -34,8 +34,8 @@ torch.manual_seed(666)
 
 if __name__ == '__main__':
     # parameter setting
-    embedding_dim = 150
-    hidden_dim = 200
+    embedding_dim = 200
+    hidden_dim = 250
     sentence_len = None
     train_file = os.path.join(DATA_DIR, TRAIN_FILE)
     test_file = os.path.join(DATA_DIR, TEST_FILE)
@@ -91,7 +91,7 @@ if __name__ == '__main__':
             model.zero_grad()
             model.batch_size = len(train_labels)
             model.hidden = model.init_hidden()
-            output = model(train_inputs.t(), train_lengths)
+            output = model(train_inputs, train_lengths)
 
             loss = loss_function(output, Variable(train_labels))
             loss.backward()
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
             model.batch_size = len(test_labels)
             model.hidden = model.init_hidden()
-            output = model(test_inputs.t(), test_lengths)
+            output = model(test_inputs, test_lengths)
 
             loss = loss_function(output, Variable(test_labels))
 
