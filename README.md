@@ -42,6 +42,7 @@ R8 Dataset.[link](http://www.cs.umb.edu/~smimarog/textmining/datasets/).
 
 ### 5. Notes:
 - This code is largely inspired from the original repo: [jiangqy](https://github.com/jiangqy/LSTM-Classification-Pytorch) with a few modifications:
+  - Use the Adam optimizer
   - Custom dataloader
   - Select the right output after the LSTM/GRU (masking)
   - Attention layer included, from [here](https://github.com/wabyking/TextClassificationBenchmark). The attention mechanism is not the full one though, it is a simplified version. No new parameters are learned in the process as it just combines the rnn output with the hidden states using matrix multiplications. This simplified attention mechanism still provides a significant improvements over no attention at all.
