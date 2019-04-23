@@ -45,5 +45,5 @@ R8 Dataset.[link](http://www.cs.umb.edu/~smimarog/textmining/datasets/).
   - Custom dataloader
   - Select the right output after the LSTM/GRU (masking)
   - Attention layer included, from [here](https://github.com/wabyking/TextClassificationBenchmark). The attention mechanism is not the full one though, it is a simplified version. No new parameters are learned in the process as it just combines the rnn output with the hidden states using matrix multiplications. This simplified attention mechanism still provides a significant improvements over no attention at all.
-- The entire sentences are used. If you want to cap the number of words, please, update the parameter **sentence_len = None** to **sentence_len = n**. You should get pretty descent results even with only 32 words max per sentence.
+- The entire sentences are used. If you want to cap the number of words, please, update the parameter *sentence_len = None* to *sentence_len = n*. You should get pretty descent results even with only 32 words max per sentence.
 - There is no early stopping. The code just runs for n epochs and saves the results at the end. But it is easy enough to select the best model based on the evaluation phase.
