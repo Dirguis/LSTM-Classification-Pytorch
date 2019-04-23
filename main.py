@@ -34,8 +34,8 @@ torch.manual_seed(666)
 
 if __name__ == '__main__':
     # parameter setting
-    embedding_dim = 200
-    hidden_dim = 250
+    embedding_dim = 50
+    hidden_dim = 150
     sentence_len = None
     train_file = os.path.join(DATA_DIR, TRAIN_FILE)
     test_file = os.path.join(DATA_DIR, TEST_FILE)
@@ -72,10 +72,10 @@ if __name__ == '__main__':
     test_loss_ = []
     train_acc_ = []
     test_acc_ = []
-    model.train()
     # training procedure
     for epoch in range(epochs):
 
+        model.train()
         # training epoch
         total_acc = 0.0
         total_loss = 0.0
