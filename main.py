@@ -104,7 +104,7 @@ if __name__ == '__main__':
             total_loss += loss.item()
 
         train_loss_.append(total_loss / total)
-        train_acc_.append(total_acc.numpy() / total)
+        train_acc_.append(total_acc.item() / total)
         # testing epoch
         total_acc = 0.0
         total_loss = 0.0
@@ -130,7 +130,7 @@ if __name__ == '__main__':
             total += len(test_labels)
             total_loss += loss.item()
         test_loss_.append(total_loss / total)
-        test_acc_.append(total_acc.numpy() / total)
+        test_acc_.append(total_acc.item() / total)
         scheduler.step(test_loss_[-1])
 
         print('[Epoch: %3d/%3d] Training Loss: %.3f, Testing Loss: %.3f, Training Acc: %.3f, Testing Acc: %.3f'
